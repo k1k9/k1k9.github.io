@@ -22,7 +22,7 @@ Zaczniemy od analizy pliku ```admin.php.corrupted.txt```. Kod w pliku prezentuje
 ![code](/assets/posts/bulletproof-login-server-tm/code.png)
 
 A oto moje wnioski:
-1.  Uwierzytelnianie użytkownika opiera się na ciasteczku ```remember_me```, które składa się z _loginu_ (```admin``` || ```demo```) oraz _tokenu_, który jest sprawdzany za pomocą funkcji ```getUserAuthToken(<login>)```.
+1. Uwierzytelnianie użytkownika opiera się na ciasteczku ```remember_me```, które składa się z _loginu_ (```admin``` || ```demo```) oraz _tokenu_, który jest sprawdzany za pomocą funkcji ```getUserAuthToken(<login>)```.
 2. Jeżeli nie jesteśmy zalogowani a ciasteczko ```remember_me``` jest ustawione, to zostanie wywołany kod echo.
 
 Niewiele informacji ale sprawdźmy reszte
