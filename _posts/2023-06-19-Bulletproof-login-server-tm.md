@@ -4,6 +4,7 @@ author: k1k9
 categories: [PWNing2016, web]
 tags: [ctf, pwning2016]
 ---
+
 # Bulletproof login server™ 
 Punkty: 100
 Rozwiązań: 49
@@ -18,48 +19,8 @@ Mamy dostępne dwa linki, jeden do strony a drugi do kodu pliku o nazwie ```admi
 
 ## admin.php.corrupted.txt
 Zaczniemy od analizy pliku ```admin.php.corrupted.txt```. Kod w pliku prezentuje się tak:
-```php
-<?php
+![code](/assets/posts/bulletproof-login-server-tm/code.png)
 
-require('../auth_funcs.php');
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-$auth = false;
-
-if (isset($_COOKIE['remember_me'])) {
-    $obj = json_decode($_COOKIE['remember_me'], true);
-    
-    if ($obj['login'] == 'demo' && $obj['token'] == getUserAuthToken('demo')) {
-        $auth = 'demo';
-    }
-    
-    if ($obj['login'] == 'admin' && $obj['token'] == getUserAuthToken('admin')) {
-        $auth = 'admin';
-    }
-}
-
-if (!$auth) {
-    echo('Sorry, you are not authenticated :(<br>');
-
-    if (isset($_COOKIE['remember_me'])) {
-        echo('<pre>'.htmlentities(var_ex�
-�z��٥o��������Bo�>�P{w`^��X�1L�YYO��Z�)M�>��*����z�r4�9�����z0���m��ܵ������Z�
--0�5(��o���i���p#74�pKLʒ�fj�J�b���AqF�];3y�-R����;�x�H�HpQ�`d�ڧ��
-q�@C����8
-�*��R�P<���X���E>Y@_(�;0�߷��}��#�H#�H��h�e]Њ��m��=r�K�i)�Ǝ�Ϡ�^J���c�7�c갚Q��Z�<�m�M��-&UwZ��I�K
-T���;�f��9d�iFuo0���l��$�Q{�w>s��i�~�`����	Di+�\�}y"��vq���7]���F���+'7�i��&?��l���Ȑ��+���%��[�/�gnh�¸G�Ǆ����.�d�PD��{�����y>�В�H"u�,|;1ן�*�A����d#�&S%�4�ς�)�hL,�-d��n��4���b�9�;��q�/�g�D�N~�����}u�Q-G��Me���*eܙ@?(�e��G��bA��^ �ʅ��6,G-x���Ia��ɩv3]�{��*�P&ڐ�;E�2?f�9�'�ҩ�+��u���A�P�'���QEH�OJ����3�Vk�
-�
-qoIq�{���Du1��eZ)�w��P:h������@�J+�����Be��+�\����vy���d� T�Jş=X]N�U��������Ed���a���~�<@\���V�e�Y��ޕN-�-�o��͕�Q$�(�
-Rb���"�"+��>����������<��ZYC�+�#*��x�氹:M��W��LY8c�vgˑ�"��`�E[R���x�����s�(��͈qV2�ۤ�p�t�K�7GMT%>���/�l^�,�P���@�:��T�>r�w>	�����N~!�b�� �݋}��9̷
-o���󮶭�3�J�s
-1��NcE�=���#�I_��T�F
-;񢢤�-	m���U�՛�[D
-�w����{a�{x��tb,G�����~Pj��Jt`�S�%>l�����%������Q��J��"&Y<�8NB����R�%����{������+��^��C����M������ )�Z�\;��4��;[��r�b�+�
-�X}H+8�b)���X��*��m�0�!�+����9cBJ�oW����,�}���VJ{�c����_c��v��-/USo���pQ��X��aj�l4脷�*�P��)ƹq(o*�dfR��Bv���z�@�6ܾ?��l��ZtۊǿG��I�o#�����QDY8�Wԗ�8�>:��yr��5Y�;�JɎ�T�����3���fdAI�3n7���vԽ�ꓠg��I^#�ޘ}��iP�=j����n��W�[�Z���[v�T1q[�DS^�l�Y�C��\���C�LF��r80�?�N9_�Bz��.o�)
-�MP�4@���-J�/T����������ýv�fJ<�jg ���3���z.v�d��ğ�[P��g!2ͤ�yQ3�������C������,x��p<R5+)5�2�E�#/�[9��֎��[�T�S��H�G����	D��m�S���k��t�!��`�Q��݆�����A�$��&A�\��ځk����{k'��ɗ �C%���Kl�M�#]�?=Ub(g�8!ˏ��~���CUí��8�@���iȣ���=D��Q�7R'�B0����!0PU���]�8���5*�F�,�0������?9/w`��	T.>ͫc~���
-�k���Bc��0����`���զ5C�l����.*�(���opGAB��m��<��Pl�ie�E�Q�b����ZGɒ�-�w�Oq�W�������y�M�N�CfB������e"�<(X�m�i@j%^��<$C��V4�! _}�����R����!mz]!��9������s�9߰,�}��8٣�!�����p�X�����4�5�p��|m�Z�}*�H�Vh��V
-```
 A oto moje wnioski:
 1.  Uwierzytelnianie użytkownika opiera się na ciasteczku ```remember_me```, które składa się z _loginu_ (```admin``` || ```demo```) oraz _tokenu_, który jest sprawdzany za pomocą funkcji ```getUserAuthToken(<login>)```.
 2. Jeżeli nie jesteśmy zalogowani a ciasteczko ```remember_me``` jest ustawione, to zostanie wywołany kod echo.
