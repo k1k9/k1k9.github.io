@@ -1,7 +1,7 @@
 ---
 title: Loteria flagowa - PWNing2016
 author: k1k9
-categories: [PWNing2016, CTF]
+categories: [PWNing2016, web]
 tags: [ctf, pwning2016]
 ---
 
