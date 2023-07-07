@@ -5,9 +5,10 @@ categories: [CTFlearn, forensics]
 tags: [ctf, ctflearn]
 ---
 Points: 40
+Solves: 1081
 Level: Medium
 
-Find the flag on the smiling face.
+Find the flag on the smiling face.\
 ![smiling_face](/assets/posts/smiling-ascii/entry.png)
 
 
@@ -24,7 +25,7 @@ $ echo RGlkIHlvdSBrbm93IHRoYXQgcGl4ZWxzIGFyZSwgbGlrZSB0aGUgYXNjaWkgdGFibGUsIG51b
 
 > Did you know that pixels are, like the ascii table, numbered from 0 to 255?
 ```
-So we need dig deeper but first let's take a look of image. After zooming in we see various shades of gray, but in top left corner we have something like this:
+So we need dig deeper but first let's take a look of image. After zooming in we see various shades of gray, but in top left corner we have something like this:\
 ![dum_dum](/assets/posts/smiling-ascii/top_left.png)
 
 ## Ending
