@@ -4,6 +4,7 @@ author: k1k9
 categories: [web]
 tags: [ctf]
 ---
+CTF był pod adresem: http://139.177.183.71/bgk-ctf-31337/
 
 ## 1 - Xcross this
 Po wejściu na stronę widzimy, że aplikacja pobiera od użytkownika dane, które potem wyświetla przy użyciu biblioteki MathJax ver. 2.7.0.
