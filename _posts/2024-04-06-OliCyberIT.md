@@ -83,10 +83,6 @@ File: monty_hall.zip
 Solves: 17 \
 Points: 225
 
-Na samym początku zacząłem analizować kod źródłowy aplikacji. Po analizie kodu źródłowego można zauważyć, że aplikacja wszystkie nasze wybory zapisuje w zaszyfrowanej AES ciasteczku. Mamy prawie wszystkie potrzebne informacje, oprócz klucza szyfrującego. \
-Złamanie 16 bajtów AES w trybie CBC jest niemożliwe w rozsądnym czasie, więc musimy znaleźć inny sposób na zdobycie klucza. \
-Po długich poszukiwaniach zauważyłem, że z każdym naszym wyborem, zaszyfrowane ciasteczko jest coraz dłuższe. Co w zasadzie sugeruje, że rozwiązanie trzeba potraktować jak race condition. \
-
 On the very beginning I started to analyze the source code of the application. After analyzing the source code, I see that the application saves all our choices in an encrypted AES cookie. I have almost all the necessary information to manipulate cookie, except for the encryption key. \
 
 Breaking 16 bytes of AES in CBC mode is impossible in a reasonable time, so we need to find another way to get the key. \
